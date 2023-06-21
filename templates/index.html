@@ -1,0 +1,111 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bitcon Consulta de Valor em Tempo Real</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-image: url('https://th.bing.com/th/id/R.2a1fad14bda892fd50ae29c9dffad69d?rik=OpvIM2vEi1TRdQ&riu=http%3a%2f%2fstatic.jbcgroup.com%2fnews%2fpictures%2f0719c7505f95366643787b9bd003fa9e.jpg&ehk=3I2e31umCR6nGJq5di602jfkjawrXzvpB5MHTe68v3s%3d&risl=&pid=ImgRaw&r=0.jpg');
+            background-size: cover;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+        
+        h2 {
+            color: white;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="submit"] {
+            padding: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+        p { font-family: "Trebuchet MS", Verdana, sans-serif; }
+        p { font-size: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Bitcon Consulta de Valor em Tempo Real</h1>
+    <h2>Cadastrar Número de Telefone</h2>
+    <form name="cadastrar" method="POST" action="{{ url_for('index') }}">
+        <label for="numero">Número de Telefone:</label>
+        <input type="text" id="numero" name="numero" required>
+        <input type="submit" name="cadastrar" value="Cadastrar">
+        <p id="cadastro-message">{{ cadastro_message }}</p>
+    </form>
+
+    <h2>Confirmar Acesso</h2>
+    <form name="confirmar" method="POST" action="{{ url_for('index') }}">
+        <label for="numero_confirmar">Número de Telefone:</label>
+        <input type="text" id="numero_confirmar" name="numero" required>
+        <input type="submit" name="confirmar" value="Confirmar">
+        <p id="confirmacao-message">{{ confirmacao_message }}</p>
+    </form>
+
+    <div class="notificacoes-container">
+        <h2>Notificações</h2>
+        <form name="habilitar_notificacoes" method="POST" action="{{ url_for('index') }}">
+            <input type="submit" name="habilitar_notificacoes" value="Habilitar Notificações">
+            <input type="submit" name="desabilitar_notificacoes" value="Desabilitar Notificações">
+            <p id="notificacoes-message">{{ notificacoes_message }}</p>
+        </form>
+    </div>
+
+    <div class="investimento-container">
+        <h2>Calcular Investimento</h2>
+        <form name="calcular_investimento" method="POST" action="{{ url_for('index') }}">
+            <label for="valor_investimento">Valor de Investimento (BRL):</label>
+            <input type="text" id="valor_investimento" name="valor_investimento" required>
+            <input type="submit" name="calcular_investimento" value="Calcular Investimento">
+            <p id="investimento-message">{{ investimento_message }}</p>
+        </form>
+    </div>
+
+    <div class="respostas-container">
+        <h2>Respostas:</h2>
+        <p id="resposta-cadastro">{{ resposta_cadastro }}</p>
+        <p id="resposta-confirmacao">{{ resposta_confirmacao }}</p>
+        <p id="resposta-notificacoes">{{ resposta_notificacoes }}</p>
+        <p id="resposta-investimento">{{ resposta_investimento }}</p>
+    </div>
+
+    <p>Para comprar Bitcoin e Dólar sem taxa de câmbio, acesse:</p>
+    <a href="https://www.binance.com/pt-BR/activity/referral-entry/CPA?ref=CPA_00YRJDOZZV" class="link-background">Binance.com</a>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
