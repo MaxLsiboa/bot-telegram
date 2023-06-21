@@ -43,8 +43,9 @@ def start(update: Update, context):
     chat_id = update.effective_chat.id
     bot = context.bot
     btc_price = client.get_avg_price(symbol="BTCBRL")['price']
-    message = f"Olá! Sou um bot para te ajudar com o valor do BTC.\n"
-    message += f"O preço atual do Bitcoin é {format_brl_value(btc_price)} BRL.\n"
+    usdt_price = client.get_avg_price(symbol="USDTBRL")['price']
+    message = f"Olá! Sou um robô estou aqui para te ajudar com o valor do BTC.\n"
+    message += f"O preço atual do Bitcoin é {format_brl_value(btc_price)} BRL e o preço do Dólar é {format_brl_value(usdt_price)} BRL.\n"
     message += "Você gostaria de investir hoje?"
     context.bot.send_message(chat_id=chat_id, text=message)
 
@@ -52,8 +53,8 @@ def invest(update: Update, context):
     chat_id = update.effective_chat.id
     message_text = update.message.text.lower()
 
-    if message_text == 'obrigado' or message_text == 'agradecido':
-        message = "De nada! Estou aqui para ajudar. Se tiver alguma outra pergunta, é só me perguntar!"
+    if message_text == 'não' or message_text == 'agradecido':
+        message = "Tudo bem, por nada! Estou aqui para ajudar. Se tiver alguma outra pergunta, é só me perguntar!"
         context.bot.send_message(chat_id=chat_id, text=message)
     else:
         try:
@@ -117,4 +118,5 @@ def main():
     updater.idle()
 
 if __name__ == '__main__':
+
     main()
