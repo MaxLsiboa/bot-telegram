@@ -1,1 +1,2 @@
-worker: python btc.py
+web: python app.py
+
