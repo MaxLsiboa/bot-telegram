@@ -1,4 +1,4 @@
 python-telegram-bot==13.7
 binance==0.3
-locale==1.0.0
+locale==1.6.0
 requests==2.26.0
