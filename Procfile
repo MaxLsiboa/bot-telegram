@@ -1,1 +1,1 @@
-worker: python btc.py
+web: python bot.py
