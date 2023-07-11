@@ -1,8 +1,6 @@
-from flask import Flask, request
 from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import Dispatcher, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from binance.client import Client as BinanceClient
-import os
 
 # Configuração do Telegram
 TELEGRAM_TOKEN = '6002886491:AAHWbdB2DyExhvnIWJOQxkd26eP7FDCP75Q'
@@ -83,22 +81,22 @@ def invest(update: Update, context):
             message = "Por favor, digite um valor válido para o investimento."
             context.bot.send_message(chat_id=chat_id, text=message)
 
-app = Flask(__name__)
+def main():
+    bot = Bot(token=TELEGRAM_TOKEN)
+    updater = Updater(bot=bot, use_context=True)
 
-@app.route(f'/{TELEGRAM_TOKEN}', methods=['POST'])
-def webhook():
-    update = Update.de_json(request.get_json(), bot)
-    dispatcher.process_update(update)
-    return 'ok'
+    start_handler = CommandHandler('start', start)
+    invest_handler = MessageHandler(Filters.text & (~Filters.command), invest)
+
+    updater.dispatcher.add_handler(start_handler)
+    updater.dispatcher.add_handler(invest_handler)
+
+    # Agendar a verificação do preço a cada hora
+    job_queue = updater.job_queue
+    job_queue.run_repeating(check_price, interval=3600, first=0, context=updater.bot.get_me().id)
+
+    updater.start_polling()
+    updater.idle()
 
 if __name__ == '__main__':
-    bot = Bot(token=TELEGRAM_TOKEN)
-    dispatcher = Dispatcher(bot, None)
-    dispatcher.add_handler(CommandHandler('start', start))
-    dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), invest))
-    
-    # Agendar a verificação do preço a cada hora
-    job_queue = dispatcher.job_queue
-    job_queue.run_repeating(check_price, interval=3600, first=0, context=bot.get_me().id)
-
-    app.run(threaded=True)
+    main()
